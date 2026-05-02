@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca418d0e-06a7-4a58-b76d-e6604cf0764e" name="Changes" comment="Add new SVG icons: arrow-down, audience, and calendar">
+    <list default="true" id="ca418d0e-06a7-4a58-b76d-e6604cf0764e" name="Changes" comment="Add API routes for creating and fetching events&#10;&#10;- Implemented `POST` route to handle event creation with support for tags and agenda data.&#10;- Implemented `GET` route to retrieve all events sorted by creation date.&#10;- Integrated MongoDB connection logic and error handling.">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/events/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/events/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -15,7 +19,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="2" />
+    <option name="cachedIndexableFilesCount" value="51" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -59,8 +63,10 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "database-models",
+    "git-widget-placeholder": "api-routes",
     "javascript.preferred.runtime.type.id": "node",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -74,6 +80,21 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -89,6 +110,7 @@
       <option name="presentableId" value="Default" />
       <updated>1777682102717</updated>
       <workItem from="1777682103522" duration="8514000" />
+      <workItem from="1777754832319" duration="5371000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure, update dependencies, and enhance styling&#10;&#10;- **Removed SVG files:** Deleted unused SVG assets from the `/public` directory.&#10;- **Updated CSS:** Overhauled global styles with Tailwind utilities, introduced custom themes, and added reusable utility classes.&#10;- **Dependencies added:** Installed new libraries (`clsx`, `lucide-react`, `radix-ui`, etc.) and updated `package.json` and `package-lock.json`.&#10;- **Page components updated:** Modernized layout and homepage; replaced placeholder content with dynamic components like `EventCard` and `ExploreButton`.&#10;- **Layout restructured:** Improved page layout with new `NavBar` and `LightRays` components for enhanced UI.&#10;- **VCS config:** Added `.idea/vcs.xml` for tracking VCS settings.">
       <option name="closed" value="true" />
@@ -106,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777690957477</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add API routes for creating and fetching events&#10;&#10;- Implemented `POST` route to handle event creation with support for tags and agenda data.&#10;- Implemented `GET` route to retrieve all events sorted by creation date.&#10;- Integrated MongoDB connection logic and error handling.">
+      <option name="closed" value="true" />
+      <created>1777758064841</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1777758064841</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +150,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactor project structure, update dependencies, and enhance styling&#10;&#10;- **Removed SVG files:** Deleted unused SVG assets from the `/public` directory.&#10;- **Updated CSS:** Overhauled global styles with Tailwind utilities, introduced custom themes, and added reusable utility classes.&#10;- **Dependencies added:** Installed new libraries (`clsx`, `lucide-react`, `radix-ui`, etc.) and updated `package.json` and `package-lock.json`.&#10;- **Page components updated:** Modernized layout and homepage; replaced placeholder content with dynamic components like `EventCard` and `ExploreButton`.&#10;- **Layout restructured:** Improved page layout with new `NavBar` and `LightRays` components for enhanced UI.&#10;- **VCS config:** Added `.idea/vcs.xml` for tracking VCS settings." />
     <MESSAGE value="Add new SVG icons: arrow-down, audience, and calendar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new SVG icons: arrow-down, audience, and calendar" />
+    <MESSAGE value="Add API routes for creating and fetching events&#10;&#10;- Implemented `POST` route to handle event creation with support for tags and agenda data.&#10;- Implemented `GET` route to retrieve all events sorted by creation date.&#10;- Integrated MongoDB connection logic and error handling." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add API routes for creating and fetching events&#10;&#10;- Implemented `POST` route to handle event creation with support for tags and agenda data.&#10;- Implemented `GET` route to retrieve all events sorted by creation date.&#10;- Integrated MongoDB connection logic and error handling." />
   </component>
 </project>
