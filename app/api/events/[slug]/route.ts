@@ -23,9 +23,9 @@ export async function GET(
         { status: 404 }
       );
     }
-
+    console.log('EVENT ', event);
     // 5. Return the event
-    return NextResponse.json(event, { status: 200 });
+    return NextResponse.json({ event }, { status: 200 });
   } catch (error: any) {
     console.error('Fetch Event Error:', error);
     return NextResponse.json(
