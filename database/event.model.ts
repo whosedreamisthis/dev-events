@@ -80,7 +80,7 @@ const eventSchema = new Schema<IEvent>(
   }
 );
 
-eventSchema.pre("save", function validateAndNormalize(next) {
+eventSchema.pre("save", function validateAndNormalize() {
   const stringFields: Array<keyof Pick<
     IEvent,
     | "title"
@@ -111,16 +111,16 @@ eventSchema.pre("save", function validateAndNormalize(next) {
   // Enforce non-empty required string fields.
   for (const field of stringFields) {
     if (!this[field] || this[field].trim().length === 0) {
-      return next(new Error(`${field} is required.`));
+      throw new Error(`${field} is required.`);
     }
   }
 
   // Enforce non-empty required array fields.
   if (!Array.isArray(this.agenda) || this.agenda.length === 0) {
-    return next(new Error("agenda is required and must contain at least one item."));
+    throw new Error("agenda is required and must contain at least one item.");
   }
   if (!Array.isArray(this.tags) || this.tags.length === 0) {
-    return next(new Error("tags is required and must contain at least one item."));
+    throw new Error("tags is required and must contain at least one item.");
   }
 
   // Generate URL-friendly slug only when the title changes.
@@ -131,7 +131,7 @@ eventSchema.pre("save", function validateAndNormalize(next) {
   // Normalize date to ISO-8601 and time to 24-hour HH:mm.
   const parsedDate = new Date(this.date);
   if (Number.isNaN(parsedDate.getTime())) {
-    return next(new Error("Invalid date value."));
+    throw new Error("Invalid date value.");
   }
   this.date = parsedDate.toISOString();
 
@@ -139,10 +139,8 @@ eventSchema.pre("save", function validateAndNormalize(next) {
     this.time = normalizeTime(this.time);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Invalid time value.";
-    return next(new Error(message));
+    throw new Error(message);
   }
-
-  return next();
 });
 
 eventSchema.index({ slug: 1 }, { unique: true });

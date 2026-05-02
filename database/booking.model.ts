@@ -36,23 +36,21 @@ const bookingSchema = new Schema<IBooking>(
   }
 );
 
-bookingSchema.pre("save", async function validateBooking(next) {
+bookingSchema.pre("save", async function validateBooking() {
   const doc = this as BookingDocument;
 
   // Validate normalized email format before saving.
   if (!doc.email || !emailRegex.test(doc.email)) {
-    return next(new Error("Invalid email format."));
+    throw new Error("Invalid email format.");
   }
 
   // Verify the referenced event exists to prevent orphan bookings.
   if (doc.isNew || doc.isModified("eventId")) {
     const eventExists = await Event.exists({ _id: doc.eventId });
     if (!eventExists) {
-      return next(new Error("Referenced event does not exist."));
+      throw new Error("Referenced event does not exist.");
     }
   }
-
-  return next();
 });
 
 bookingSchema.index({ eventId: 1 });
