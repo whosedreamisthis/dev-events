@@ -8,8 +8,12 @@ import { PostHogProvider as PHProvider } from '@posthog/react';
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN as string, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+    if (!token || !host) return;
+
+    posthog.init(token, {
+      api_host: host,
       defaults: '2026-01-30',
       capture_exceptions: {
         capture_unhandled_errors: true, // default
@@ -17,6 +21,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
         capture_console_errors: false, // default
       },
     });
+  }, []);
   }, []);
 
   return <PHProvider client={posthog}>{children}</PHProvider>;
