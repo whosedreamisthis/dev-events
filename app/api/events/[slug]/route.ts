@@ -26,13 +26,13 @@ export async function GET(
     console.log('EVENT ', event);
     // 5. Return the event
     return NextResponse.json({ event }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Fetch Event Error:', error);
     return NextResponse.json(
-      {
-        message: 'Failed to fetch event',
-        error: error.message,
-      },
+      { message: 'Failed to fetch event' },
+      { status: 500 }
+    );
+  }
       { status: 500 }
     );
   }
