@@ -12,22 +12,24 @@ const EventDetailsPage = async ({
   const { slug } = await params;
 
   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+  if (request.status === 404) return notFound();
+  if (!request.ok) throw new Error('Failed to fetch event');
+
+  const { event } = await request.json();
   const {
-    event: {
-      description,
-      image,
-      overview,
-      date,
-      time,
-      title,
-      location,
-      mode,
-      agenda,
-      venue,
-      audience,
-      tags,
-    },
-  } = await request.json();
+    description,
+    image,
+    overview,
+    date,
+    time,
+    title,
+    location,
+    mode,
+    agenda,
+    venue,
+    audience,
+    tags,
+  } = event;
 
   if (!description) return notFound();
 
