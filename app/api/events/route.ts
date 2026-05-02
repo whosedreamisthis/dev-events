@@ -20,11 +20,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const file = formData.get('image') as File;
+    const file = formData.get('image');
 
-    if (!file)
+    if (!(file instanceof File))
       return NextResponse.json(
         { message: 'Image file is required' },
+        { status: 400 }
+      );
+
+    if (!file.type.startsWith('image/'))
+      return NextResponse.json(
+        { message: 'Only image uploads are allowed' },
+        { status: 400 }
+      );
+
+    if (file.size > 5 * 1024 * 1024)
+      return NextResponse.json(
+        { message: 'Image file is too large' },
         { status: 400 }
       );
 
