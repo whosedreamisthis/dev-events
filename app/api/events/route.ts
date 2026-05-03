@@ -4,6 +4,15 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Event } from '@/database/event.model';
 import { v2 as cloudinary } from 'cloudinary';
 export async function POST(req: NextRequest) {
+  const authHeader = req.headers.get('x-admin-key');
+
+  if (authHeader !== process.env.ADMIN_SECRET_KEY) {
+    return NextResponse.json(
+      { error: 'Unauthorized: Only host can post here.' },
+      { status: 401 }
+    );
+  }
+
   try {
     await connectToDatabase();
 
