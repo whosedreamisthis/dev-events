@@ -1,12 +1,18 @@
 import React from 'react';
 import ExploreButton from '@/components/ExploreButton';
 import EventCard from '@/components/EventCard';
-import { IEvent } from '@/database/event.model';
+import { IEvent, Event } from '@/database/event.model';
+import { cacheLife } from 'next/cache';
+import { connectToDatabase } from '@/lib/mongodb';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
-  const response = await fetch(`${BASE_URL}/api/events`);
-  const { events } = await response.json();
+  'use cache';
+  cacheLife('hours');
+  await connectToDatabase();
+  const events = await Event.find().sort({ createdAt: -1 }).lean();
+  //const response = await fetch(`${BASE_URL}/api/events`);
+  //const { events } = await response.json();
   return (
     <section>
       <h1 className="text-center">
