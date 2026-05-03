@@ -23,16 +23,11 @@ export async function GET(
         { status: 404 }
       );
     }
-    console.log('EVENT ', event);
     // 5. Return the event
     return NextResponse.json({ event }, { status: 200 });
   } catch (error) {
-    console.error('Fetch Event Error:', error);
     return NextResponse.json(
       { message: 'Failed to fetch event' },
-      { status: 500 }
-    );
-  }
       { status: 500 }
     );
   }
