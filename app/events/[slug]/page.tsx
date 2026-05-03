@@ -1,6 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import BookEvent from '@/components/BookEvent';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -52,7 +53,9 @@ const EventDetailsPage = async ({
 }) => {
   const { slug } = await params;
 
-  const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+  const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
+    next: { revalidate: 60 },
+  });
   if (request.status === 404) return notFound();
   if (!request.ok) throw new Error('Failed to fetch event');
 
@@ -74,12 +77,13 @@ const EventDetailsPage = async ({
   } = event;
 
   if (!description) return notFound();
-  console.log('AGENDA', agenda);
+
+  const bookings = 10;
 
   return (
     <section id="event">
       <div className="header">
-        <h1>Event Description</h1>
+        <h1>{title}</h1>
 
         <p> {description}</p>
       </div>
@@ -122,7 +126,17 @@ const EventDetailsPage = async ({
           <EventTags tags={tags} />
         </div>
         <aside className="booking">
-          <p className="text-lg font-semibold">Book Event</p>
+          <div className="signup-card">
+            <h2>Book Your Spot</h2>
+            {bookings > 0 ? (
+              <p className="text-sm">
+                Join {bookings} people who have already booked their spot!
+              </p>
+            ) : (
+              <p className="text-sm"> Be the first to book your spot!</p>
+            )}
+            <BookEvent />
+          </div>
         </aside>
       </div>
     </section>
