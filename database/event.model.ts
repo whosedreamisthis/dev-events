@@ -1,6 +1,6 @@
-import { HydratedDocument, Model, Schema, model, models } from "mongoose";
+import { HydratedDocument, Model, Schema, model, models } from 'mongoose';
 
-interface IEvent {
+export interface IEvent {
   title: string;
   slug: string;
   description: string;
@@ -25,9 +25,9 @@ const slugify = (value: string): string =>
   value
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 
 const normalizeTime = (value: string): string => {
   const trimmed = value.trim();
@@ -39,23 +39,23 @@ const normalizeTime = (value: string): string => {
     const minute = Number(rawMinute);
 
     if (hour < 1 || hour > 12 || minute > 59) {
-      throw new Error("Invalid time value.");
+      throw new Error('Invalid time value.');
     }
 
     const lowerMeridiem = meridiem.toLowerCase();
-    if (lowerMeridiem === "pm" && hour !== 12) hour += 12;
-    if (lowerMeridiem === "am" && hour === 12) hour = 0;
+    if (lowerMeridiem === 'pm' && hour !== 12) hour += 12;
+    if (lowerMeridiem === 'am' && hour === 12) hour = 0;
 
-    return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+    return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
   }
 
   const twentyFourHourMatch = trimmed.match(/^([01]?\d|2[0-3]):([0-5]\d)$/);
   if (twentyFourHourMatch) {
     const [, hour, minute] = twentyFourHourMatch;
-    return `${String(Number(hour)).padStart(2, "0")}:${minute}`;
+    return `${String(Number(hour)).padStart(2, '0')}:${minute}`;
   }
 
-  throw new Error("Time must be in HH:mm or h:mm AM/PM format.");
+  throw new Error('Time must be in HH:mm or h:mm AM/PM format.');
 };
 
 const eventSchema = new Schema<IEvent>(
@@ -80,32 +80,34 @@ const eventSchema = new Schema<IEvent>(
   }
 );
 
-eventSchema.pre("save", function validateAndNormalize() {
-  const stringFields: Array<keyof Pick<
-    IEvent,
-    | "title"
-    | "description"
-    | "overview"
-    | "image"
-    | "venue"
-    | "location"
-    | "date"
-    | "time"
-    | "mode"
-    | "audience"
-    | "organizer"
-  >> = [
-    "title",
-    "description",
-    "overview",
-    "image",
-    "venue",
-    "location",
-    "date",
-    "time",
-    "mode",
-    "audience",
-    "organizer",
+eventSchema.pre('save', function validateAndNormalize() {
+  const stringFields: Array<
+    keyof Pick<
+      IEvent,
+      | 'title'
+      | 'description'
+      | 'overview'
+      | 'image'
+      | 'venue'
+      | 'location'
+      | 'date'
+      | 'time'
+      | 'mode'
+      | 'audience'
+      | 'organizer'
+    >
+  > = [
+    'title',
+    'description',
+    'overview',
+    'image',
+    'venue',
+    'location',
+    'date',
+    'time',
+    'mode',
+    'audience',
+    'organizer',
   ];
 
   // Enforce non-empty required string fields.
@@ -117,28 +119,29 @@ eventSchema.pre("save", function validateAndNormalize() {
 
   // Enforce non-empty required array fields.
   if (!Array.isArray(this.agenda) || this.agenda.length === 0) {
-    throw new Error("agenda is required and must contain at least one item.");
+    throw new Error('agenda is required and must contain at least one item.');
   }
   if (!Array.isArray(this.tags) || this.tags.length === 0) {
-    throw new Error("tags is required and must contain at least one item.");
+    throw new Error('tags is required and must contain at least one item.');
   }
 
   // Generate URL-friendly slug only when the title changes.
-  if (this.isModified("title")) {
+  if (this.isModified('title')) {
     this.slug = slugify(this.title);
   }
 
   // Normalize date to ISO-8601 and time to 24-hour HH:mm.
   const parsedDate = new Date(this.date);
   if (Number.isNaN(parsedDate.getTime())) {
-    throw new Error("Invalid date value.");
+    throw new Error('Invalid date value.');
   }
   this.date = parsedDate.toISOString();
 
   try {
     this.time = normalizeTime(this.time);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Invalid time value.";
+    const message =
+      error instanceof Error ? error.message : 'Invalid time value.';
     throw new Error(message);
   }
 });
@@ -146,5 +149,4 @@ eventSchema.pre("save", function validateAndNormalize() {
 eventSchema.index({ slug: 1 }, { unique: true });
 
 export const Event: Model<IEvent> =
-  (models.Event as Model<IEvent>) || model<IEvent>("Event", eventSchema);
-
+  (models.Event as Model<IEvent>) || model<IEvent>('Event', eventSchema);

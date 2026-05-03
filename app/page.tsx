@@ -1,6 +1,7 @@
 import React from 'react';
 import ExploreButton from '@/components/ExploreButton';
 import EventCard from '@/components/EventCard';
+import { IEvent } from '@/database/event.model';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
@@ -18,7 +19,7 @@ const Page = async () => {
 
       <div className="mt-20 space-y-7">
         <h3>Featured Events</h3>
-        <ul className="events">
+        <ul className="events list-none">
           {events &&
             events.length > 0 &&
             events.map((event: IEvent) => (
